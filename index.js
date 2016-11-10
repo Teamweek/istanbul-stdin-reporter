@@ -2,11 +2,27 @@
 
 var readline = require('readline');
 var istanbul = require('istanbul');
+var yargs = require('yargs');
+
+var argv = yargs
+  .usage('Usage: $0 [options]')
+  .option('f', {
+    alias: 'format',
+    default: 'html',
+    describe: 'Report format'
+  })
+  .option('o', {
+    alias: 'output',
+    default: 'coverage',
+    describe: 'Output directory'
+  })
+  .help()
+  .argv;
 
 var collector = new istanbul.Collector();
 
-var reporter = new istanbul.Reporter();
-reporter.add('html');
+var reporter = new istanbul.Reporter(null, argv.o);
+reporter.add(argv.f);
 
 var rl = readline.createInterface({
   input: process.stdin
