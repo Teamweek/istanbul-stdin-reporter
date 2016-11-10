@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "istanbul-stdin-reporter": "index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/miscer/istanbul-stdin-reporter.git"
