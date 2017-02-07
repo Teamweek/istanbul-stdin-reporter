@@ -1,6 +1,6 @@
 {
   "name": "istanbul-stdin-reporter",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Create Istanbul code coverage reports by passing coverage data through STDIN",
   "main": "index.js",
   "scripts": {
