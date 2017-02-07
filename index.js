@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-var readline = require('readline');
+var JSONStream = require('JSONStream');
 var istanbul = require('istanbul');
 var yargs = require('yargs');
 
@@ -24,26 +24,14 @@ var collector = new istanbul.Collector();
 var reporter = new istanbul.Reporter(null, argv.o);
 reporter.add(argv.f);
 
-var rl = readline.createInterface({
-  input: process.stdin
-});
+var stream = JSONStream.parse('*');
 
-rl.on('line', function(chunk) {
-  var data;
-
-  try {
-    data = JSON.parse(chunk);
-  } catch (err) {
-    console.error('Input is not valid JSON');
-    return;
-  }
-
+stream.on('data', function(data) {
   collector.add(data);
-
   console.log('Collected coverage data');
 });
 
-rl.on('close', function() {
+stream.on('end', function() {
   reporter.write(collector, false, function(err) {
     if (err) {
       console.error('Failed to write coverage report');
@@ -54,4 +42,5 @@ rl.on('close', function() {
   });
 });
 
+process.stdin.pipe(stream);
 console.log('Waiting for input...');
